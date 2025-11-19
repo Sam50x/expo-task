@@ -2,8 +2,8 @@
 
 ## Step by step approach
 
-- Backend Skeleton
-- Auth
+- Backend Skeleton ✅
+- Auth ✅
 - Models and CRUD
 - Geo search
 - Frontend Skeleton
