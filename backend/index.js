@@ -8,6 +8,7 @@ import projectRouter from './src/modules/project.route.js'
 import zoneRouter from './src/modules/zone.route.js'
 import developerRouter from './src/modules/developer.route.js'
 import unitRouter from './src/modules/unit.route.js'
+import searchRouter from './src/modules/search.route.js'
 
 configDotenv()
 
@@ -22,6 +23,7 @@ app.use('/projects', projectRouter)
 app.use('/zones', zoneRouter)
 app.use('/developers', developerRouter)
 app.use('/units', unitRouter)
+app.use('/search', searchRouter)
 
 app.use(globalErrorHandler)
 
