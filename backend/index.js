@@ -4,6 +4,10 @@ import connectDb from './config/db.js'
 import { configDotenv } from 'dotenv'
 import { successHandler, globalErrorHandler } from './src/middleware/response.middleware.js'
 import authRouter from './src/auth/auth.route.js'
+import projectRouter from './src/modules/project.route.js'
+import zoneRouter from './src/modules/zone.route.js'
+import developerRouter from './src/modules/developer.route.js'
+import unitRouter from './src/modules/unit.route.js'
 
 configDotenv()
 
@@ -14,6 +18,10 @@ app.use(cors())
 app.use(successHandler)
 
 app.use('/auth', authRouter)
+app.use('/projects', projectRouter)
+app.use('/zones', zoneRouter)
+app.use('/developers', developerRouter)
+app.use('/units', unitRouter)
 
 app.use(globalErrorHandler)
 
