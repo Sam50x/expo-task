@@ -11,6 +11,7 @@ import unitRouter from './src/modules/unit.route.js'
 import searchRouter from './src/modules/search.route.js'
 
 configDotenv()
+connectDb()
 
 const app = express()
 
@@ -34,7 +35,6 @@ app.use(globalErrorHandler)
 const port = 8888
 
 app.listen(port, async () => {
-    await connectDb()
     console.log(`Server is listening on ${port}`)
 })
 
