@@ -18,6 +18,10 @@ app.use(express.json())
 app.use(cors())
 app.use(successHandler)
 
+app.get('/', (req, res) => {
+    return res.json({ msg: 'Hello 👋' })
+})
+
 app.use('/auth', authRouter)
 app.use('/projects', projectRouter)
 app.use('/zones', zoneRouter)
@@ -27,13 +31,11 @@ app.use('/search', searchRouter)
 
 app.use(globalErrorHandler)
 
-app.get('/', (req, res) => {
-    return res.json({ msg: 'Hello 👋' })
-})
-
 const port = 8888
 
 app.listen(port, async () => {
     await connectDb()
     console.log(`Server is listening on ${port}`)
 })
+
+export default app
