@@ -6,20 +6,10 @@
             "use": "@vercel/node"
         }
     ],
-    "rewrites": [
+    "routes": [
         {
-            "source": "/(.*)",
-            "destination": "/"
-        }
-    ],
-    "crons": [
-        {
-            "path": "/crons/daily",
-            "schedule": "0 0 * * *"
-        },
-        {
-            "path": "/crons/weekly",
-            "schedule": "0 0 * * 0"
+            "src": "/(.*)",
+            "dest": "index.js"
         }
     ]
 }
