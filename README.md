@@ -7,7 +7,7 @@
 - Models and CRUD ✅
 - Geo search (server) ✅
 - Frontend Skeleton ✅
-- Auth
+- Auth ✅
 - Units details
 - Geo Search (client)
 - Docs
