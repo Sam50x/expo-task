@@ -10,7 +10,7 @@ const router = express.Router()
 router.get("/nearby", authenticate, async (req, res) => {
     try {
         await connectDB()
-        const { userLat, userLng, radius = 10, page = 1, limit = 10, project, developer, zone } = req.query
+        const { userLat, userLng, radius = 10 } = req.query
         if (!userLat || !userLng) {
             throw new ResponseError(400, "Need Valid Coordinates")
         }
@@ -22,14 +22,6 @@ router.get("/nearby", authenticate, async (req, res) => {
 
         const radiusMeters = Math.max(0.1, parseFloat(radius) || 10) * 1000
 
-        const pageNum = Math.max(1, parseInt(page) || 1)
-        const rawLimit = Math.max(1, Math.min(parseInt(limit) || 10, 50))
-        const skip = (pageNum - 1) * rawLimit
-
-        const filters = {}
-        if (project && mongoose.Types.ObjectId.isValid(project)) filters.project = project
-        if (developer && mongoose.Types.ObjectId.isValid(developer)) filters.developer = developer
-        if (zone && mongoose.Types.ObjectId.isValid(zone)) filters.zone = zone
         const agg = [
             {
                 $geoNear: {
@@ -37,7 +29,6 @@ router.get("/nearby", authenticate, async (req, res) => {
                     distanceField: "distMeters",
                     spherical: true,
                     maxDistance: radiusMeters,
-                    query: filters
                 }
             },
             {
@@ -57,8 +48,6 @@ router.get("/nearby", authenticate, async (req, res) => {
                 $facet: {
                     paginatedResults: [
                         { $sort: { distMeters: 1 } },
-                        { $skip: skip },
-                        { $limit: rawLimit },
                     ],
                     totalCount: [
                         { $count: "count" }
@@ -72,7 +61,7 @@ router.get("/nearby", authenticate, async (req, res) => {
 
         if (result[0] && result[0].paginatedResults && result[0].totalCount){
             data = result[0].paginatedResults
-            totalCount = result[0].totalCount
+            totalCount = result[0].totalCount[0].count
         }
         else{
             data = []
