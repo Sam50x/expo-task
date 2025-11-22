@@ -55,15 +55,16 @@ router.get("/nearby", authenticate, async (req, res) => {
                 }
             }
         ]
+
         const result = await Unit.aggregate(agg).exec()
         let data
         let totalCount
 
-        if (result[0] && result[0].paginatedResults && result[0].totalCount){
+        if (result[0] && result[0].paginatedResults && result[0].totalCount) {
             data = result[0].paginatedResults
             totalCount = result[0].totalCount[0].count
         }
-        else{
+        else {
             data = []
             totalCount = 0
         }

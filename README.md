@@ -9,5 +9,4 @@
 - Frontend Skeleton ✅
 - Auth ✅
 - Units details
-- Geo Search (client)
 - Docs
