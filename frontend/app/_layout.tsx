@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Text } from 'react-native-paper'
 import tw, { useDeviceContext } from 'twrnc'
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 
 const RouteGuard = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -32,13 +33,15 @@ const RouteGuard = ({ children }: { children: React.ReactNode }) => {
     }
 
     getSession()
-  }, [router])
+  }, [router, pathname, getUser])
 
   if (isLoading) {
     return (
-      <View style={tw`flex-1 flex justify-center items-center`}>
-        <Text style={tw`text-black text-center`}>Loading...</Text>
-      </View>
+      <SafeAreaView style={tw`flex-1`}>
+        <View style={tw`flex-1 flex justify-center items-center`}>
+          <Text style={tw`text-black text-center`}>Loading...</Text>
+        </View>
+      </SafeAreaView>
     )
   }
 
@@ -52,15 +55,19 @@ const RouteGuard = ({ children }: { children: React.ReactNode }) => {
 export default function RootLayout() {
   useDeviceContext(tw)
   return (
-    <RouteGuard>
-      <Stack
-        screenOptions={{
-          headerShown: false
-        }}
-      >
-        <Stack.Screen name="index" options={{ title: 'Home' }} />
-        <Stack.Screen name="auth" options={{ title: 'Auth' }} />
-      </Stack>
-    </RouteGuard>
+    <SafeAreaProvider style={tw`bg-black`}>
+      <SafeAreaView style={tw`flex-1`}>
+        <RouteGuard>
+          <Stack
+            screenOptions={{
+              headerShown: false
+            }}
+          >
+            <Stack.Screen name="index" options={{ title: 'Home' }} />
+            <Stack.Screen name="auth" options={{ title: 'Auth' }} />
+          </Stack>
+        </RouteGuard>
+      </SafeAreaView>
+    </SafeAreaProvider>
   )
 }
