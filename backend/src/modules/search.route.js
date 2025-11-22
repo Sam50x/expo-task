@@ -3,17 +3,17 @@ import mongoose from "mongoose"
 import Unit from "../../models/unit.model.js"
 import { ResponseError } from "../middleware/response.middleware.js"
 import { authenticate } from "../middleware/auth.middleware.js"
+import connectDB from "../../config/db.js"
 
 const router = express.Router()
 
 router.get("/nearby", authenticate, async (req, res) => {
     try {
+        await connectDB()
         const { userLat, userLng, radius = 10, page = 1, limit = 10, project, developer, zone } = req.query
-
         if (!userLat || !userLng) {
             throw new ResponseError(400, "Need Valid Coordinates")
         }
-
         const lat = parseFloat(userLat)
         const lng = parseFloat(userLng)
         if (Number.isNaN(lat) || Number.isNaN(lng)) {
@@ -30,7 +30,6 @@ router.get("/nearby", authenticate, async (req, res) => {
         if (project && mongoose.Types.ObjectId.isValid(project)) filters.project = project
         if (developer && mongoose.Types.ObjectId.isValid(developer)) filters.developer = developer
         if (zone && mongoose.Types.ObjectId.isValid(zone)) filters.zone = zone
-
         const agg = [
             {
                 $geoNear: {
@@ -67,15 +66,22 @@ router.get("/nearby", authenticate, async (req, res) => {
                 }
             }
         ]
-
         const result = await Unit.aggregate(agg).exec()
+        let data
+        let totalCount
 
-        const data = result[0].paginatedResults
-        const totalCount = result[0].totalCount[0].count
+        if (result[0] && result[0].paginatedResults && result[0].totalCount){
+            data = result[0].paginatedResults
+            totalCount = result[0].totalCount
+        }
+        else{
+            data = []
+            totalCount = 0
+        }
 
         return res.success(200, { data, totalCount })
-    } catch (err) {
-        throw new ResponseError(400, "Couldn\'t search for units")
+    } catch (e) {
+        throw new ResponseError(400, "Couldn\'t search for units", e)
     }
 })
 
