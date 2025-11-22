@@ -15,13 +15,14 @@ connectDb()
 
 const app = express()
 
-app.use(express.json())
 app.use(cors({
     origin: "*",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
-}));
+}))
+app.options('*', cors())
 
+app.use(express.json())
 app.use(successHandler)
 
 app.get('/', (req, res) => {
