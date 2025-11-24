@@ -3,9 +3,15 @@ export type Unit = {
     name: string,
     imageUrl: string,
     price: number,
-    project: string,
-    developer: string,
-    zone: string,
+    project: {
+        name: string
+    },
+    developer: {
+        name: string
+    },
+    zone: {
+        name: string
+    },
     location: {
         type: 'Point',
         coordinates: [

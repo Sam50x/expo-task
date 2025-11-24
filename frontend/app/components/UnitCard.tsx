@@ -9,6 +9,12 @@ const UnitCard = ({ unitData }: { unitData: Unit }) => {
     const {
         name,
         location,
+        project,
+        developer,
+        zone,
+        imageUrl,
+        price,
+        distanceKm
     } = unitData
 
     const [lng, lat] = location.coordinates
@@ -48,6 +54,11 @@ const UnitCard = ({ unitData }: { unitData: Unit }) => {
             {/* Data */}
             <View>
                 <Text>Unit: {name}</Text>
+            </View>
+            <View style={tw`w-full flex flex-row flex-wrap justify-between items-center py-2`}>
+                <Text style={tw`text-sm text-white bg-black rounded-full py-2 px-4`}>{developer.name}</Text>
+                <Text style={tw`text-sm text-white bg-black rounded-full py-2 px-4`}>{project.name}</Text>
+                <Text style={tw`text-sm text-white bg-black rounded-full py-2 px-4`}>{zone.name}</Text>
             </View>
         </View>
     )
