@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { Image, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import { Unit } from '../../types'
 import tw from 'twrnc'
@@ -52,13 +52,42 @@ const UnitCard = ({ unitData }: { unitData: Unit }) => {
             </View>
 
             {/* Data */}
-            <View>
-                <Text>Unit: {name}</Text>
+            <View style={tw`flex flex-row w-full justify-between items-center px-2 mt-4`}>
+                <View style={tw`w-40 h-40 mr-2`}>
+                    <Image
+                        source={{ uri: imageUrl }}
+                        style={tw`w-full h-full`}
+                        resizeMode='cover'
+                    />
+                </View>
+                <View style={tw`flex flex-col justify-between items-start gap-2`}>
+                    <View style={tw`flex flex-col justify-start items-start gap-0`}>
+                        <Text>Name</Text>
+                        <Text style={tw`font-bold text-lg`}>{name}</Text>
+                    </View>
+                    <View style={tw`flex flex-col justify-start items-start gap-0`}>
+                        <Text>Price</Text>
+                        <Text style={tw`font-bold text-lg`}>${price}</Text>
+                    </View>
+                    <View style={tw`flex flex-col justify-start items-start gap-0`}>
+                        <Text>Distance from you</Text>
+                        <Text style={tw`font-bold text-lg`}>{distanceKm.toFixed(2)} KMs</Text>
+                    </View>
+                </View>
             </View>
             <View style={tw`w-full flex flex-row flex-wrap justify-between items-center py-2`}>
-                <Text style={tw`text-sm text-white bg-black rounded-full py-2 px-4`}>{developer.name}</Text>
-                <Text style={tw`text-sm text-white bg-black rounded-full py-2 px-4`}>{project.name}</Text>
-                <Text style={tw`text-sm text-white bg-black rounded-full py-2 px-4`}>{zone.name}</Text>
+                <View style={tw`flex flex-col justify-start items-start gap-1`}>
+                    <Text style={tw`text-xs text-black pl-2`}>Developer</Text>
+                    <Text style={tw`text-sm text-white bg-black rounded-full py-2 px-4`}>{developer.name}</Text>
+                </View>
+                <View style={tw`flex flex-col justify-start items-start gap-1`}>
+                    <Text style={tw`text-xs text-black pl-2`}>Project</Text>
+                    <Text style={tw`text-sm text-white bg-black rounded-full py-2 px-4`}>{project.name}</Text>
+                </View>
+                <View style={tw`flex flex-col justify-start items-start gap-1`}>
+                    <Text style={tw`text-xs text-black pl-2`}>Zone</Text>
+                    <Text style={tw`text-sm text-white bg-black rounded-full py-2 px-4`}>{zone.name}</Text>
+                </View>
             </View>
         </View>
     )

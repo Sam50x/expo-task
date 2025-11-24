@@ -8,5 +8,5 @@
 - Geo search (server) ✅
 - Frontend Skeleton ✅
 - Auth ✅
-- Units details
+- Units details ✅
 - Docs

@@ -50,12 +50,11 @@ export default function Index() {
   useEffect(() => {
     const getUnits = async () => {
 
-      setIsLoading(true)
-
       if (!userLocation[0] || !userLocation[1]) {
-        setIsLoading(false)
         return
       }
+
+      setIsLoading(true)
 
       const res = await fetch(`${API_URL}/search/nearby?userLng=${userLocation[0]}&userLat=${userLocation[1]}&radius=${radius || 10}`, {
         method: 'GET',
@@ -79,11 +78,12 @@ export default function Index() {
 
       console.log(data)
       setUnits(data.data)
+
+      setIsLoading(false)
     }
 
     getUnits()
 
-    setIsLoading(false)
   }, [token, radius, userLocation])
 
   return (
