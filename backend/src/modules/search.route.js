@@ -31,6 +31,46 @@ router.get("/nearby", authenticate, async (req, res) => {
                     maxDistance: radiusMeters,
                 }
             },
+
+            {
+                $lookup: {
+                    from: "projects",
+                    localField: "project",
+                    foreignField: "_id",
+                    as: "project",
+                    pipeline: [
+                        { $project: { name: 1, _id: 0 } }
+                    ]
+                }
+            },
+            { $unwind: "$project" },
+
+            {
+                $lookup: {
+                    from: "developers",
+                    localField: "developer",
+                    foreignField: "_id",
+                    as: "developer",
+                    pipeline: [
+                        { $project: { name: 1, _id: 0 } }
+                    ]
+                }
+            },
+            { $unwind: "$developer" },
+
+            {
+                $lookup: {
+                    from: "zones",
+                    localField: "zone",
+                    foreignField: "_id",
+                    as: "zone",
+                    pipeline: [
+                        { $project: { name: 1, _id: 0 } }
+                    ]
+                }
+            },
+            { $unwind: "$zone" },
+
             {
                 $project: {
                     name: 1,
