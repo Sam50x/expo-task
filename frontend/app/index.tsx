@@ -133,11 +133,14 @@ export default function Index() {
             <Text style={tw`text-black text-center`}>Loading...</Text>
           </View>
         ) : (
-          <View style={tw`flex-1 flex justify-start items-start mt-6`}>
+          <View style={tw`flex-1 flex justify-start items-start mt-6 w-full flex-1`}>
             <FlatList
               data={units}
               keyExtractor={(item) => item._id}
               renderItem={({ item }) => <UnitCard unitData={item} />}
+              style={tw`w-full`}
+              contentContainerStyle={tw`flex flex-col gap-4`}
+              showsVerticalScrollIndicator={false}
             />
           </View>
         )
